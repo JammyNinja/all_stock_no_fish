@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "all-stock-no-fish"
+version = "0.1.0"
+description = "Chess analysis portfolio project"
+authors = ["Louis Auger <louis.auger.pro@gmail.com>"]
+packages = [{ include = "all_stock_no_fish", from = "src" }]
+
+[tool.poetry.dependencies]
+python    = "^3.12.9"
+requests  = "^2.31"
+streamlit = "^1.35"
+
+
+[build-system]
+requires      = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
