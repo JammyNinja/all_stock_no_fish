@@ -16,3 +16,9 @@ def get_stats(username):
     result.raise_for_status()
 
     return result.json()
+
+def test_change():
+    url = BACKEND_API_BASE + "/test_change"
+    r = requests.get(url)
+    r.raise_for_status()
+    return r.json()

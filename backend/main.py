@@ -35,6 +35,11 @@ def player_stats(username: str):
     except requests.HTTPError as e:
         raise HTTPException(status_code=e.response.status_code, detail=str(e))
 
+@app.get("/test_change")
+def test_change():
+    out = "end to end test"
+    return {"test" : out}
+
 
 #wut
 if __name__ == "__main__":
