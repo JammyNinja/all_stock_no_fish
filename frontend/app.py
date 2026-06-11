@@ -58,4 +58,4 @@ try:
     test = test_change()
     st.write(test)
 except:
-    print("test change error")
+    st.write("test change error")
