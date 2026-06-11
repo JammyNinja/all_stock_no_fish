@@ -4,3 +4,4 @@ __pycache__/
 .envrc
 .vscode/
 .streamlit/secrets.toml
+notes.txt

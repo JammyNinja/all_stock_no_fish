@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-from api_helpers import get_profile, get_stats
+from api_helpers import get_profile, get_stats, test_change
 
 st.set_page_config(page_title="All Stock No Fish", page_icon="♟️")
 
@@ -53,3 +53,9 @@ if username:
             with cols[i % 2]:
                 st.metric(label=label, value=rating, help=f"Best: {best}")
                 st.caption(f"W {w} / L {l} / D {d}")
+
+try:
+    test = test_change()
+    st.write(test)
+except:
+    print("test change error")
