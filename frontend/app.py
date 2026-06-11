@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-from all_stock_no_fish.sources import get_profile, get_stats
+from api_helpers import get_profile, get_stats
 
 st.set_page_config(page_title="All Stock No Fish", page_icon="♟️")
 
