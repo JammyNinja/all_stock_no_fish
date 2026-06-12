@@ -3,7 +3,7 @@ import requests
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from all_stock_no_fish.sources import get_profile, get_stats
+from all_stock_no_fish.sources import get_profile, get_stats, test_bq
 
 app = FastAPI(title="All Stock No Fish API")
 
@@ -40,6 +40,10 @@ def test_change():
     out = "end to end test"
     return {"test" : out}
 
+@app.get("/test_bq")
+def go_test_bq():
+    datasets = test_bq()
+    return {'datasets_available' : datasets}
 
 #wut
 if __name__ == "__main__":
