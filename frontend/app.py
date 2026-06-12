@@ -61,4 +61,5 @@ st.subheader("Debug")
 if st.button("Test BigQuery Connection"):
     with st.spinner("Connecting to BigQuery..."):
         response = test_bq()
+        st.write("running in mode:", response['mode'])
         st.success(f"Connected! Datasets found: {', '.join(response['datasets_available']) or 'none'}")
