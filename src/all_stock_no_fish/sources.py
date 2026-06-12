@@ -29,8 +29,15 @@ def fetch_and_store_all_raw_games(username):
     archives_to_fetch = get_archives_to_fetch(username)
     #loop through archive, collect all games
     print(f"found {len(archives_to_fetch)} archives to fetch")
-    BATCH_SIZE = 1000
 
+    current_month = datetime.now(timezone.utc).strftime("%Y/%m")
+    current_month_url = f"https://api.chess.com/pub/player/{username.lower()}/games/{current_month}"
+
+    if current_month_url in archives_to_fetch:
+        print("deleting current month:", current_month_url)
+        delete_archive_from_bq(username, current_month_url)
+
+    BATCH_SIZE = 1000
     batch = []
     fetched_archive_urls = []
     for i, url in enumerate(archives_to_fetch):
@@ -86,6 +93,22 @@ def fetch_archive(url):
     r.raise_for_status()
     games = r.json().get("games", [])
     return games
+
+def delete_archive_from_bq(username: str, archive_url: str) -> None:
+    """used to avoid duplicating the current month"""
+    PROJECT_ID = os.environ.get("GCP_PROJECT_ID")
+    DATASET_ID = "chess_com_games"
+    TABLE_ID   = "raw_games"
+    client = bigquery.Client(project=PROJECT_ID)
+    table_ref = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
+
+    query = f"""
+        DELETE FROM `{table_ref}`
+        WHERE archive_url = '{archive_url}'
+        AND (white_username = '{username}' OR black_username = '{username}')
+    """
+    client.query(query).result()
+    print(f"Deleted existing games for {archive_url}")
 
 def mark_archives_as_fetched(username: str, archive_urls: list[str]) -> None:
     PROJECT_ID = os.environ.get("GCP_PROJECT_ID")
@@ -153,7 +176,7 @@ if __name__ == "__main__":
     # from dev import recreate_tables
     # recreate_tables()
 
-    username='JammyNinja'
+    username='sylvainau'
     # test_bq()
     # results = get_profile(username)
     # print(results)
