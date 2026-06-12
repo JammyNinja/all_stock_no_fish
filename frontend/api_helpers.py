@@ -1,7 +1,11 @@
 import requests
 import streamlit as st
+import os
 
-BACKEND_API_BASE = st.secrets.get("BACKEND_API")
+if os.environ.get("MODE", "local") == "local":
+    BACKEND_API_BASE = "https://localhost:8000/"
+else:
+    BACKEND_API_BASE = st.secrets.get("BACKEND_API")
 
 def get_profile(username):
     profile_url = f"{BACKEND_API_BASE}/player/{username}"

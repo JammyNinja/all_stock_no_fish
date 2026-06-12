@@ -7,3 +7,10 @@ build_backend_cloud:
 
 push_docker_image:
 	docker push $(IMAGE_URI)
+
+run_docker_local:
+	docker run -it \
+		-p 8000:8080 \
+		-e GOOGLE_APPLICATION_CREDENTIALS=/secrets/key.json \
+		-v $(GOOGLE_APPLICATION_CREDENTIALS):/secrets/key.json \
+		$(DOCKER_IMAGE_NAME)
