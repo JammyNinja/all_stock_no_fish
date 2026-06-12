@@ -14,3 +14,7 @@ run_docker_local:
 		-e GOOGLE_APPLICATION_CREDENTIALS=/secrets/key.json \
 		-v $(GOOGLE_APPLICATION_CREDENTIALS):/secrets/key.json \
 		$(DOCKER_IMAGE_NAME)
+
+
+run_local_all:
+	streamlit run frontend/app.py

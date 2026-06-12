@@ -1,7 +1,8 @@
 import streamlit as st
 import requests
 
-from api_helpers import get_profile, get_stats, test_change
+from api_helpers import get_profile, get_stats
+from api_helpers import test_change, test_bq
 
 st.set_page_config(page_title="All Stock No Fish", page_icon="♟️")
 
@@ -54,8 +55,10 @@ if username:
                 st.metric(label=label, value=rating, help=f"Best: {best}")
                 st.caption(f"W {w} / L {l} / D {d}")
 
-try:
-    test = test_change()
-    st.write(test)
-except:
-    st.write("test change error")
+st.divider()
+st.subheader("Debug")
+
+if st.button("Test BigQuery Connection"):
+    with st.spinner("Connecting to BigQuery..."):
+        response = test_bq()
+        st.success(f"Connected! Datasets found: {', '.join(response['datasets_available']) or 'none'}")
