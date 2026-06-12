@@ -33,5 +33,6 @@ def test_bq():
     url = BACKEND_API_BASE + "/test_bq"
     r = requests.get(url)
     r.raise_for_status()
-    
-    return r.json()
+    out = r.json()
+    out['mode'] = os.environ.get("MODE", "")
+    return out
